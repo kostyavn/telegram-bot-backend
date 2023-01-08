@@ -1,15 +1,10 @@
-const TelegramBot = require('node-telegram-bot-api')
-const { parsed } = require('dotenv').config()
+const { configs, controllers } = require('./src/index')
 
-const token = parsed.TOKEN || ''
+/* configs */
+const { telegram } = configs
 
-const bot = new TelegramBot(token, { polling: true })
-
-bot.on('message', msg => {
-  const chatId = msg.chat.id
-
-  bot.sendMessage(chatId, 'Received your message')
-})
+/* controllers */
+const { commands } = controllers
 
 /**
  * Application start
@@ -17,6 +12,13 @@ bot.on('message', msg => {
 const appLaunch = () => {
   try {
     console.log('Telegram bot has been started')
+
+    const { bot } = telegram
+    const { commandsList, resolvers } = commands
+
+    bot.setMyCommands(commandsList)
+
+    bot.on('message', resolvers)
   } catch (error) {
     console.log('An error occurred while trying to launch the app. Error: ' + error)
   }
