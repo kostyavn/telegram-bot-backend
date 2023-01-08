@@ -1,8 +1,6 @@
 const { bot } = require('../configs/telegram')
 const { buttons } = require('../utils')
 
-// const { sendMessage, sendSticker } = bot
-
 const { startButton } = buttons
 
 const commandsList = [{ command: '/start', description: 'Start the app features' }]
@@ -12,6 +10,9 @@ const resolvers = async msg => {
   const text = msg.text
 
   switch (text) {
+    /**
+     * On bot start
+     */
     case '/start':
       await bot.sendSticker(chatId, 'https://tlgrm.ru/_/stickers/918/290/918290ad-eabb-423f-987a-e2f9f1f88e9e/7.webp')
       await bot.sendMessage(
